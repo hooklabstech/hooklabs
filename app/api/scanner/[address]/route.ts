@@ -1,0 +1,4 @@
+import { NextResponse } from "next/server"
+import { inspectAddress } from "@/lib/blockchain"
+import { tackle } from "@/lib/tackle"
+export async function GET(request:Request,{params}:{params:Promise<{address:string}>}){const{address}=await params;const chainId=Number(new URL(request.url).searchParams.get("chainId")??1);try{const inspection=await inspectAddress(address,chainId);const relatedPools=chainId===4663&&inspection.isContract?await tackle.pools({hook:address,limit:10}).catch(()=>null):null;return NextResponse.json({...inspection,relatedPools:relatedPools?.pools??[],relatedPoolsTotal:relatedPools?.total??null,registryProvider:chainId===4663?"tacklehooks.xyz":null},{headers:{"Cache-Control":"public, s-maxage=15, stale-while-revalidate=30"}})}catch(error){const message=error instanceof Error?error.message:"Scan failed";return NextResponse.json({error:message},{status:message.includes("Invalid")||message.includes("Unsupported")?400:502})}}
