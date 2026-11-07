@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import type { SiteConfig } from "@/lib/config"
+import { usePublicConfig } from "@/lib/public-config-client"
 
 type Hook={address:string;name?:string|null;label?:string|null;flagsHex:string;enabled:string[];pools:number;firstSeenBlock:number;lastPoolBlock:number;lastPoolAt?:string|null;warnings:string[];chainId:number;chain:string;explorerUrl:string;freshness?:string|null}
 type HooksResponse={data:Hook[];pagination:{page:number;limit:number;total:number;pages:number};provider:string;source:string}
@@ -29,7 +30,7 @@ export function Dashboard({view="dashboard"}:{view?:"dashboard"|"hooks"|"docs"})
  const[page,setPage]=useState(1);const[query,setQuery]=useState("");const[permission,setPermission]=useState("All permissions")
  const{data:overview,error:overviewError,isLoading:overviewLoading,mutate:refreshOverview}=useSWR<Overview>(view==="docs"?null:"/api/overview",fetcher,{refreshInterval:30000})
  const{data:registry,error:registryError,isLoading:registryLoading,mutate:refreshRegistry}=useSWR<HooksResponse>(view==="docs"?null:`/api/hooks?page=${view==="hooks"?page:1}&limit=${view==="hooks"?20:5}&sort=pools`,fetcher,{refreshInterval:30000})
- const{data:siteConfig}=useSWR<SiteConfig>(view==="dashboard"?"/api/public-config":null,fetcher,{refreshInterval:30000})
+ const{data:siteConfig}=usePublicConfig(view==="dashboard")
  const filtered=useMemo(()=>{const hooks=registry?.data??[];return hooks.filter(hook=>`${hook.label??""} ${hook.name??""} ${hook.address}`.toLowerCase().includes(query.toLowerCase())&&(permission==="All permissions"||hook.enabled.includes(permission)))},[registry,query,permission])
  if(view==="docs")return <Docs/>;if(overviewLoading||registryLoading)return <Loading/>;if(overviewError||registryError||!overview||!registry)return <main className="mx-auto max-w-2xl px-4 py-24 text-center"><h1 className="text-2xl font-semibold">Live data unavailable</h1><p className="mt-2 text-muted-foreground">HOOKLABS could not reach the verified indexing provider.</p><Button className="mt-5" onClick={()=>{void refreshOverview();void refreshRegistry()}}><RefreshCw/>Retry</Button></main>
  const permissions=["All permissions",...Array.from(new Set(registry.data.flatMap(hook=>hook.enabled))).sort()]

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const safeUrl = z.union([z.literal(""), z.string().url().refine((value) => ["https:", "http:"].includes(new URL(value).protocol), "Use an HTTP(S) URL")])
+const safeUrl = z.union([z.literal(""), z.string().url().refine((value) => { try { return ["https:", "http:"].includes(new URL(value).protocol) } catch { return false } }, "Use an HTTP(S) URL")])
 const assetUrl = z.union([safeUrl, z.string().regex(/^\/[a-zA-Z0-9/_\-.]+$/)])
 const color = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Use a six-digit hex color")
 const ethereumAddress = z.union([z.literal(""), z.string().regex(/^0x[0-9a-fA-F]{40}$/)])
@@ -27,7 +27,7 @@ export const siteConfigSchema = z.object({
   chainId: z.number().int().positive().nullable(), chainName: z.string().max(60), logoUrl: assetUrl, primaryColor: color, secondaryColor: color, defaultTheme: z.enum(["dark", "light", "system"]),
   navigationLabels: z.object({ dashboard: z.string(), hooks: z.string(), scanner: z.string(), submit: z.string(), docs: z.string() }),
   social: z.object({ x: safeUrl, telegram: safeUrl, discord: safeUrl, website: safeUrl }), links: z.object({ buy: safeUrl, chart: safeUrl, explorer: safeUrl, documentation: safeUrl }),
-  api: z.object({ defaultChainId: z.number().int().positive(), requestTimeoutMs: z.number().int().min(1000).max(20000) }), features: z.object({ registry: z.boolean(), scanner: z.boolean(), pools: z.boolean(), wallet: z.boolean(), swap: z.boolean(), submissions: z.boolean() }),
+  api: z.object({ defaultChainId: z.number().int().positive(), requestTimeoutMs: z.number().int().min(1000).max(20000) }), features: z.object({ registry: z.boolean(), scanner: z.boolean(), pools: z.boolean(), wallet: z.boolean(), swap: z.boolean(), submissions: z.boolean(), showXButton: z.boolean().default(true), showBuyButton: z.boolean().default(false) }),
   stats: z.object({ registered: z.string(), chains: z.string(), tx24h: z.string(), scanned: z.string() }), activity: z.array(z.object({ name: z.string(), action: z.string(), time: z.string() })).max(100), hooks: z.array(hookRecordSchema).max(500),
   token: z.object({
     name: z.string().min(1).max(60), ticker: z.string().min(1).max(16), contractAddress: ethereumAddress, network: z.string().min(1).max(60), logoUrl: assetUrl, launchPlatform: z.string().max(80), launchVersion: z.enum(["pending", "v1", "v2"]).default("pending"), launchStatus: z.enum(["pre-launch", "preparing", "live", "paused"]), description: z.string().max(500), chartUrl: safeUrl, explorerUrl: safeUrl,
@@ -47,7 +47,7 @@ const milestone = (id: string, title: string, status: z.infer<typeof milestoneSt
 export const defaultConfig: SiteConfig = {
   version: "default", updatedAt: new Date(0).toISOString(), projectName: "HOOKLABS", ticker: "HOOKLB", contractAddress: "", chainId: 4663, chainName: "Robinhood Chain", logoUrl: "/images/hooklab-logo.png", primaryColor: "#b7f34a", secondaryColor: "#6fdc8c", defaultTheme: "dark",
   navigationLabels: { dashboard: "Dashboard", hooks: "Hooks", scanner: "Scanner", submit: "Submit Hook", docs: "API Docs" }, social: { x: "", telegram: "", discord: "", website: "" }, links: { buy: "", chart: "", explorer: "", documentation: "" },
-  api: { defaultChainId: 1, requestTimeoutMs: 8000 }, features: { registry: true, scanner: true, pools: false, wallet: true, swap: false, submissions: true }, stats: { registered: "0", chains: "5", tx24h: "Unavailable", scanned: "0" }, activity: [], hooks: [],
+  api: { defaultChainId: 1, requestTimeoutMs: 8000 }, features: { registry: true, scanner: true, pools: false, wallet: true, swap: false, submissions: true, showXButton: true, showBuyButton: false }, stats: { registered: "0", chains: "5", tx24h: "Unavailable", scanned: "0" }, activity: [], hooks: [],
   token: {
     name: "HookLabs", ticker: "HOOKLB", contractAddress: "", network: "Robinhood Chain", logoUrl: "/images/hooklab-logo.png", launchPlatform: "Ponsfamily", launchVersion: "pending", launchStatus: "pre-launch", description: "The official pre-launch token for the HOOKLABS hook intelligence ecosystem.", chartUrl: "", explorerUrl: "", purchase: { enabled: false, url: "", label: "Buy $HOOKLB", openInNewTab: true }, marketData: { price: "", marketCap: "", liquidity: "" },
     utilities: [

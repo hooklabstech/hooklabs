@@ -1,0 +1,184 @@
+{
+  "version": "source-1",
+  "updatedAt": "2026-11-07T00:00:00.000Z",
+  "projectName": "HOOKLABS",
+  "ticker": "HOOKLB",
+  "contractAddress": "",
+  "chainId": 4663,
+  "chainName": "Robinhood Chain",
+  "logoUrl": "/images/hooklab-logo.png",
+  "primaryColor": "#b7f34a",
+  "secondaryColor": "#6fdc8c",
+  "defaultTheme": "dark",
+  "navigationLabels": {
+    "dashboard": "Dashboard",
+    "hooks": "Hooks",
+    "scanner": "Scanner",
+    "submit": "Submit Hook",
+    "docs": "API Docs"
+  },
+  "social": {
+    "x": "",
+    "telegram": "",
+    "discord": "",
+    "website": ""
+  },
+  "links": {
+    "buy": "",
+    "chart": "",
+    "explorer": "",
+    "documentation": ""
+  },
+  "api": {
+    "defaultChainId": 1,
+    "requestTimeoutMs": 8000
+  },
+  "features": {
+    "registry": true,
+    "scanner": true,
+    "pools": false,
+    "wallet": true,
+    "swap": false,
+    "submissions": true,
+    "showXButton": true,
+    "showBuyButton": false
+  },
+  "stats": {
+    "registered": "0",
+    "chains": "5",
+    "tx24h": "Unavailable",
+    "scanned": "0"
+  },
+  "activity": [],
+  "hooks": [],
+  "token": {
+    "name": "HookLabs",
+    "ticker": "HOOKLB",
+    "contractAddress": "",
+    "network": "Robinhood Chain",
+    "logoUrl": "/images/hooklab-logo.png",
+    "launchPlatform": "Ponsfamily",
+    "launchVersion": "pending",
+    "launchStatus": "pre-launch",
+    "description": "The official pre-launch token for the HOOKLABS hook intelligence ecosystem.",
+    "chartUrl": "",
+    "explorerUrl": "",
+    "purchase": {
+      "enabled": false,
+      "url": "",
+      "label": "Buy $HOOKLB",
+      "openInNewTab": true
+    },
+    "marketData": {
+      "price": "",
+      "marketCap": "",
+      "liquidity": ""
+    },
+    "utilities": [
+      {
+        "name": "Ecosystem Participation",
+        "description": "Proposed participation within the evolving HOOKLABS ecosystem.",
+        "iconUrl": "/images/token-utilities/01_Ecosystem.png"
+      },
+      {
+        "name": "Community Initiatives",
+        "description": "Potential community programs and ecosystem campaigns.",
+        "iconUrl": "/images/token-utilities/02_Community.png"
+      },
+      {
+        "name": "Potential Access to Premium Analytics",
+        "description": "Future access models remain under research and are not guaranteed.",
+        "iconUrl": "/images/token-utilities/03_Analytics.png"
+      },
+      {
+        "name": "Developer Ecosystem Incentives",
+        "description": "Potential incentives for builders and hook developers.",
+        "iconUrl": "/images/token-utilities/04_Developer.png"
+      },
+      {
+        "name": "Future Governance Participation",
+        "description": "Governance is exploratory and not yet implemented.",
+        "iconUrl": "/images/token-utilities/05_Governance.png"
+      }
+    ],
+    "tokenomics": {
+      "status": "proposed",
+      "totalSupply": "1,000,000,000 HOOKLB",
+      "circulatingSupply": "Awaiting Launch",
+      "vesting": "",
+      "liquidityStatus": "Activates at Launch",
+      "allocations": []
+    }
+  },
+  "roadmapCurrentPhase": 2,
+  "roadmap": [
+    {
+      "id": "foundation",
+      "title": "Phase 1 — Platform Foundation",
+      "description": "Core HOOKLABS product and infrastructure milestones.",
+      "status": "In Progress",
+      "targetDate": "",
+      "visible": true,
+      "milestones": [
+        { "id": "foundation-brand", "title": "HOOKLABS branding", "description": "", "status": "Completed", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "foundation-interface", "title": "Website interface", "description": "", "status": "Completed", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "foundation-scanner", "title": "Hook scanner integration", "description": "", "status": "Completed", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "foundation-registry", "title": "Hook registry integration", "description": "", "status": "Completed", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "foundation-api", "title": "Blockchain API infrastructure", "description": "", "status": "In Progress", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "foundation-wallet", "title": "Wallet integration", "description": "", "status": "Completed", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "foundation-community", "title": "Community infrastructure", "description": "", "status": "In Progress", "targetDate": "", "weight": 1, "visible": true }
+      ]
+    },
+    {
+      "id": "token-launch",
+      "title": "Phase 2 — HOOKLB Token Launch",
+      "description": "Current focus: preparing HOOKLB for a verified Ponsfamily launch.",
+      "status": "In Progress",
+      "targetDate": "",
+      "visible": true,
+      "milestones": [
+        { "id": "token-ticker", "title": "Official ticker selection: HOOKLB", "description": "", "status": "Completed", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "token-tokenomics", "title": "Tokenomics preparation", "description": "", "status": "In Progress", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "token-pons", "title": "Ponsfamily launch requirements", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "token-contract", "title": "Token contract deployment", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "token-verification", "title": "Contract verification", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "token-announcement", "title": "Official launch announcement", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "token-purchase", "title": "Token purchase link activation", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "token-market", "title": "Market data integration", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true }
+      ]
+    },
+    {
+      "id": "expansion",
+      "title": "Phase 3 — Ecosystem Expansion",
+      "description": "Planned product, network, and utility research.",
+      "status": "Planned",
+      "targetDate": "",
+      "visible": true,
+      "milestones": [
+        { "id": "expansion-analytics", "title": "Advanced hook analytics", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "expansion-api", "title": "Expanded developer APIs", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "expansion-networks", "title": "Additional network support", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "expansion-community", "title": "Community engagement tools", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "expansion-utility", "title": "HOOKLB ecosystem utility research", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true }
+      ]
+    },
+    {
+      "id": "long-term",
+      "title": "Phase 4 — Community & Long-Term Development",
+      "description": "Long-term community and ecosystem planning.",
+      "status": "Planned",
+      "targetDate": "",
+      "visible": true,
+      "milestones": [
+        { "id": "long-proposals", "title": "Community proposals", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "long-governance", "title": "Governance exploration", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "long-integrations", "title": "Strategic ecosystem integrations", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true },
+        { "id": "long-development", "title": "Long-term HOOKLABS development", "description": "", "status": "Planned", "targetDate": "", "weight": 1, "visible": true }
+      ]
+    }
+  ],
+  "announcements": [],
+  "community": {
+    "resources": []
+  }
+}
