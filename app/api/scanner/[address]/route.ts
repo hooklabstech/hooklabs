@@ -1,4 +1,18 @@
 import { NextResponse } from "next/server"
-import { inspectAddress } from "@/lib/blockchain"
+import { assessRisk, inspectAddress } from "@/lib/blockchain"
 import { tackle } from "@/lib/tackle"
-export async function GET(request:Request,{params}:{params:Promise<{address:string}>}){const{address}=await params;const chainId=Number(new URL(request.url).searchParams.get("chainId")??1);try{const inspection=await inspectAddress(address,chainId);const relatedPools=chainId===4663&&inspection.isContract?await tackle.pools({hook:address,limit:10}).catch(()=>null):null;return NextResponse.json({...inspection,relatedPools:relatedPools?.pools??[],relatedPoolsTotal:relatedPools?.total??null,registryProvider:chainId===4663?"tacklehooks.xyz":null},{headers:{"Cache-Control":"public, s-maxage=15, stale-while-revalidate=30"}})}catch(error){const message=error instanceof Error?error.message:"Scan failed";return NextResponse.json({error:message},{status:message.includes("Invalid")||message.includes("Unsupported")?400:502})}}
+
+export async function GET(request: Request, { params }: { params: Promise<{ address: string }> }) {
+  const { address } = await params
+  const chainId = Number(new URL(request.url).searchParams.get("chainId") ?? 1)
+  try {
+    const inspection = await inspectAddress(address, chainId)
+    const response = chainId === 4663 && inspection.isContract ? await tackle.pools({ hook: address, limit: 10 }).catch(() => null) : null
+    const relatedPools = (response?.pools ?? []).map((pool) => ({ id: pool.poolId, pair: pool.pair, createdAt: pool.createdAt, createdBlock: pool.createdBlock, txHash: pool.txHash, fee: pool.key?.fee ?? 0, tickSpacing: pool.key?.tickSpacing ?? 0 }))
+    const risk = assessRisk({ isContract: inspection.isContract, bytecodeSize: inspection.bytecodeSize, token: inspection.token, permissions: inspection.permissions, pons: inspection.pons, poolCount: relatedPools.length })
+    return NextResponse.json({ ...inspection, risk, relatedPools, relatedPoolsTotal: response?.total ?? null, registryProvider: chainId === 4663 ? "tacklehooks.xyz" : null }, { headers: { "Cache-Control": "public, s-maxage=15, stale-while-revalidate=30" } })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Scan failed"
+    return NextResponse.json({ error: message }, { status: message.includes("Invalid") || message.includes("Unsupported") ? 400 : 502 })
+  }
+}
