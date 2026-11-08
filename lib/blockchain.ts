@@ -1,13 +1,14 @@
 import { createPublicClient, defineChain, http, isAddress, zeroAddress, type Address } from "viem"
 import { mainnet, base, arbitrum, unichain } from "viem/chains"
 import type { LegacyPool, PermissionResult, PonsLaunch, RiskFactor } from "@/lib/scanner-types"
+import { explorerUrl } from "@/lib/explorers"
 
-const robinhood = defineChain({ id: 4663, name: "Robinhood Chain", nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 }, rpcUrls: { default: { http: ["https://rpc.mainnet.chain.robinhood.com"] } }, blockExplorers: { default: { name: "Robinhood Explorer", url: "https://explorer.chain.robinhood.com" } } })
+const robinhood = defineChain({ id: 4663, name: "Robinhood Chain", nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 }, rpcUrls: { default: { http: ["https://rpc.mainnet.chain.robinhood.com"] } }, blockExplorers: { default: { name: "Robinhood Chain Blockscout", url: "https://robinhoodchain.blockscout.com" } } })
 export const supportedChains = [mainnet, base, arbitrum, unichain, robinhood] as const
 export const PONS_V2_FACTORY = "0x7eD598BcEf8bd9Edd8C97A195C6d13f40801EC7e" as Address
 
 export function getChain(chainId: number) { return supportedChains.find((chain) => chain.id === chainId) }
-export function explorerAddress(chainId: number, address: string) { const chain = getChain(chainId); return chain?.blockExplorers?.default ? `${chain.blockExplorers.default.url}/address/${address}` : "" }
+export function explorerAddress(chainId: number, address: string) { return explorerUrl(chainId, "address", address) ?? "" }
 export function getClient(chainId: number) { const chain = getChain(chainId); if (!chain) throw new Error("Unsupported chain"); return createPublicClient({ chain, transport: http(undefined, { timeout: 8000, retryCount: 2, retryDelay: 250 }) }) }
 
 const erc20Abi = [
@@ -47,7 +48,7 @@ async function inspectPonsLaunch(address: Address, chainId: number): Promise<Pon
     }
     const threshold = launch.graduationThreshold
     const progressPercent = raisedQuote !== null && threshold > BigInt(0) ? Math.min(100, Number((raisedQuote * BigInt(10_000)) / threshold) / 100) : Number(launch.phase) >= 1 ? 100 : null
-    return { verified: true, factory: PONS_V2_FACTORY, curve: launch.curve, deployer: launch.deployer, pairToken: launch.pairToken, phase: Number(launch.phase), phaseLabel: phaseLabels[Number(launch.phase)] ?? `Unknown phase ${launch.phase}`, graduationThreshold: threshold.toString(), raisedQuote: raisedQuote?.toString() ?? null, progressPercent, quoteReserve: quoteReserve?.toString() ?? null, tokenReserve: tokenReserve?.toString() ?? null, poolFee: Number(launch.poolFee), tickSpacing: Number(launch.tickSpacing), tradeUrl: `https://pons.family/launchpad/${address}` }
+    return { verified: true, factory: PONS_V2_FACTORY, curve: launch.curve, deployer: launch.deployer, pairToken: launch.pairToken, phase: Number(launch.phase), phaseLabel: phaseLabels[Number(launch.phase)] ?? `Unknown phase ${launch.phase}`, graduationThreshold: threshold.toString(), raisedQuote: raisedQuote?.toString() ?? null, progressPercent, quoteReserve: quoteReserve?.toString() ?? null, tokenReserve: tokenReserve?.toString() ?? null, poolFee: Number(launch.poolFee), tickSpacing: Number(launch.tickSpacing), tradeUrl: null }
   } catch { return null }
 }
 

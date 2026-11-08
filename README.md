@@ -71,7 +71,13 @@ PHP-only shared hosting cannot run this application. A Node.js runtime with pers
 - Tackle Hooks API: hook and pool discovery/index source
 - Public chain RPC endpoints: contract inspection and network health
 - Vercel Analytics: enabled automatically in production on Vercel
-- Vercel Cron or an external scheduler: daily cache indexing
+- Vercel Cron or an external scheduler: hourly registry and recent Hook-transaction indexing
+
+## Dashboard metric provenance
+
+- **Security Assessments** counts unique `(chain_id, contract_address)` records written only after a successful live scanner response. These are automated risk assessments, not formal audits.
+- **24h Hook Transactions** counts deduplicated PoolManager `Swap` transactions matched to indexed Hook pools using chain block timestamps. The UI labels the value `Partial coverage` until every configured network is indexed completely; it shows `Indexing` or `Unavailable` rather than a misleading zero when no reliable total exists.
+- Explorer destinations are centralized in `lib/explorers.ts`. Pons trade links are rendered only when an exact verified token URL is available.
 
 ## Troubleshooting
 
