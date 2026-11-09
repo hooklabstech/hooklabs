@@ -37,7 +37,7 @@ Neon Auth handles sessions. Admin routes additionally require the signed-in emai
 
 ## Public website configuration
 
-`public/config.json` is the single source of truth for public project identity, social links, token details, purchase controls, feature visibility, announcements, roadmap content, and branding colors. Edit it manually, validate the JSON, commit it, and publish a new deployment. Because the file is public, never place credentials, private keys, database URLs, unpublished secrets, or personal data in it.
+`public/config.json` is the single source of truth for public project identity, social links, token details, purchase controls, feature visibility, announcements, and roadmap content. The interface uses the permanent orange-and-black HOOKLABS design tokens in `app/globals.css`; legacy color fields remain readable for configuration compatibility but do not override the official brand palette. Edit public configuration manually, validate the JSON, commit it, and publish a new deployment. Because the file is public, never place credentials, private keys, database URLs, unpublished secrets, or personal data in it.
 
 Clients load `/config.json`, validate it with Zod, refresh it every 30 seconds while the page is active, and keep the last valid configuration when a refresh fails. On Vercel, a source edit becomes visible only after the updated deployment is published.
 
