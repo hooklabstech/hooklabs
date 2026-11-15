@@ -1,0 +1,13 @@
+{
+  "name": "HOOKLABS Premium Silver",
+  "colors": {
+    "primaryOrange": "#FF8A00",
+    "mainWhite": "#F5F6F8",
+    "silver": "#D1D5DB",
+    "mutedGray": "#6B7280",
+    "darkSurface": "#1F2937",
+    "mainBlack": "#0B0B0D",
+    "healthy": "#34D399",
+    "destructive": "#EF4444"
+  }
+}

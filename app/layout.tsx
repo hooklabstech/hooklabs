@@ -19,8 +19,8 @@ title: { default: "HOOKLABS — Hook Intelligence & $HOOKLB Ecosystem", template
   icons: { icon: "/images/hooklabs-official-logo.png", apple: "/images/hooklabs-official-logo.png" },
 }
 
-export const viewport: Viewport = { colorScheme: "dark", themeColor: "#050505", userScalable: true }
+export const viewport: Viewport = { colorScheme: "dark", themeColor: "#08090A", userScalable: true }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" className="dark" style={{ backgroundColor: "#050505" }}><body className={`${geist.variable} ${geistMono.variable} antialiased`}><ThemeProvider><WalletProvider><TooltipProvider><RuntimeBranding/><AppShell>{children}</AppShell><Toaster richColors /></TooltipProvider></WalletProvider></ThemeProvider>{process.env.NODE_ENV === "production" && <Analytics />}</body></html>
+  return <html lang="en" className="dark" style={{ backgroundColor: "#08090A" }}><body className={`${geist.variable} ${geistMono.variable} antialiased`}><ThemeProvider><WalletProvider><TooltipProvider><RuntimeBranding/><AppShell>{children}</AppShell><Toaster richColors /></TooltipProvider></WalletProvider></ThemeProvider>{process.env.NODE_ENV === "production" && <Analytics />}</body></html>
 }
