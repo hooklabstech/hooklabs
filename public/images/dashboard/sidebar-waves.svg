@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 350" preserveAspectRatio="xMidYMax slice" fill="none">
+ <defs>
+  <linearGradient id="s" x1="38" y1="285" x2="284" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#AFC1CD" stop-opacity=".08"/><stop offset=".45" stop-color="#DDEAF4" stop-opacity=".73"/><stop offset=".75" stop-color="#405363" stop-opacity=".23"/><stop offset="1" stop-color="#071018" stop-opacity="0"/></linearGradient>
+  <linearGradient id="c" x1="0" y1="244" x2="306" y2="105" gradientUnits="userSpaceOnUse"><stop stop-color="#0069AB" stop-opacity="0"/><stop offset=".4" stop-color="#1DAEFF" stop-opacity=".93"/><stop offset="1" stop-color="#36E6FF" stop-opacity=".07"/></linearGradient>
+ </defs>
+ <path d="M-50 155C25 300 73 326 168 254C243 195 241 179 338 196" stroke="url(#s)" stroke-width="58" opacity=".28"/>
+ <path d="M-20 188C45 330 98 304 167 258C238 211 268 200 330 214" stroke="url(#s)" stroke-width="3"/>
+ <path d="M-16 192C49 323 101 291 171 246C239 203 273 199 329 208" stroke="url(#c)" stroke-width="2"/>
+ <path d="M-14 202C60 326 103 315 184 266C245 226 262 213 340 227" stroke="#AFC6D7" stroke-width=".8" opacity=".45"/>
+</svg>

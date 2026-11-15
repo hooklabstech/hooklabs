@@ -1,49 +1,26 @@
-import { Analytics } from '@vercel/analytics/next'
-import type { Metadata, Viewport } from 'next'
-import './globals.css'
+import { Analytics } from "@vercel/analytics/next"
+import { Geist, Geist_Mono } from "next/font/google"
+import type { Metadata, Viewport } from "next"
+import { AppShell } from "@/components/app-shell"
+import { RuntimeBranding } from "@/components/runtime-branding"
+import { ThemeProvider } from "@/components/theme-provider"
+import { WalletProvider } from "@/components/wallet-provider"
+import { Toaster } from "@/components/ui/sonner"
+
+const geist = Geist({ variable: "--font-geist" })
+const geistMono = Geist_Mono({ variable: "--font-geist-mono" })
+import { TooltipProvider } from "@/components/ui/tooltip"
+import "./globals.css"
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+title: { default: "HOOKLABS — Hook Intelligence & $HOOKLB Ecosystem", template: "%s · HOOKLABS" },
+ description: "Explore HOOKLABS hook intelligence, the proposed $HOOKLB ecosystem token, roadmap, and community resources.",
+  generator: "v0.app",
+  icons: { icon: "/images/hooklabs-official-logo.png", apple: "/images/hooklabs-official-logo.png" },
 }
 
-export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
-}
+export const viewport: Viewport = { colorScheme: "dark", themeColor: "#08090A", userScalable: true }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return (
-    <html lang="en">
-      <body className="antialiased">
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
-      </body>
-    </html>
-  )
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="en" className="dark" style={{ backgroundColor: "#08090A" }}><body className={`${geist.variable} ${geistMono.variable} antialiased`}><ThemeProvider><WalletProvider><TooltipProvider><RuntimeBranding/><AppShell>{children}</AppShell><Toaster richColors /></TooltipProvider></WalletProvider></ThemeProvider>{process.env.NODE_ENV === "production" && <Analytics />}</body></html>
 }

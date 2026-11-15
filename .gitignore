@@ -18,6 +18,7 @@ yarn-error.log*
 
 # env files
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -25,3 +26,23 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# HOOKLABS: local secrets and generated files
+**/config.json
+.env*
+**/.env*
+.vercel/
+vercel.json
+*.zip
+*.bak
+*.backup
+*.log
+node_modules/
+.next/
+.turbo/
+dist/
+build/
+coverage/
+next-env.d.ts
+*.tsbuildinfo
