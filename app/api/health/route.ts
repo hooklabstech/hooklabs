@@ -1,0 +1,3 @@
+import { NextResponse } from "next/server"
+import { tackle } from "@/lib/tackle"
+export async function GET(){try{const stats=await tackle.stats();return NextResponse.json({ok:true,service:"hooklabs",providers:{tackleHooks:{ok:true,chainId:stats.chain.id,indexedThroughBlock:stats.index.indexedThroughBlock,headBlock:stats.index.headBlock}},time:new Date().toISOString()},{headers:{"Cache-Control":"no-store"}})}catch(error){return NextResponse.json({ok:false,service:"hooklabs",providers:{tackleHooks:{ok:false,error:error instanceof Error?error.message:"Unavailable"}},time:new Date().toISOString()},{status:503,headers:{"Cache-Control":"no-store"}})}}

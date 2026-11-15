@@ -1,0 +1,3 @@
+import { NextResponse } from "next/server"
+import { tacklePoolProvider } from "@/lib/providers"
+export async function GET(request:Request){const search=new URL(request.url).searchParams;try{const result=await tacklePoolProvider.list({hook:search.get("hook")??undefined,limit:Math.min(100,Number(search.get("limit")??20)),offset:Math.max(0,Number(search.get("offset")??0))});return NextResponse.json({data:result.data,total:result.total,provider:"tacklehooks.xyz",chainId:4663},{headers:{"Cache-Control":"public, s-maxage=20, stale-while-revalidate=60"}})}catch(error){return NextResponse.json({error:error instanceof Error?error.message:"Pools unavailable"},{status:502})}}
