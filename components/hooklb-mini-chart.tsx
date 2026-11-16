@@ -142,7 +142,7 @@ export function HooklbMiniChart({ address }: { address: string }) {
           x={geometry.xAt(i)} y="304" fill="#809daf" fontSize="10" textAnchor={i===0?"start":i===bars.length-1?"end":"middle"}>
           {period === "1d" ? new Date(bars[i].time).toISOString().slice(5,10) : new Date(bars[i].time).toISOString().slice(11,16)}</text>)}
       </svg> : <div className="flex h-[260px] flex-col items-center justify-center gap-2 px-2 text-center text-xs leading-5 text-[#9eb0c0]">
-        <span>{!validAddress ? "Set a valid token CA in config.json to load the chart." : isLoading || (isValidating && !data) ? "Loading real on-chain candles…" : error ? "Failed to load historical candles." : data?.message ?? "No historical trades available for this contract."}</span>
+        <span>{!validAddress ? "Chart will be available after token launch." : isLoading || (isValidating && !data) ? "Loading real on-chain candles…" : error ? "Failed to load historical candles." : data?.message ?? "No historical trades available for this contract."}</span>
         {validAddress && !isLoading && <button type="button" onClick={() => void mutate()} className="inline-flex items-center gap-1 text-[#28baff] hover:underline"><RefreshCw className="size-3" /> Retry</button>}
       </div>}
     </div>
