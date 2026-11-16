@@ -26,8 +26,8 @@ export const siteConfigSchema = z.object({
   version: z.string(), updatedAt: z.string().datetime(), projectName: z.string().min(1).max(60), ticker: z.string().max(16), contractAddress: ethereumAddress,
   chainId: z.number().int().positive().nullable(), chainName: z.string().max(60), logoUrl: assetUrl, primaryColor: color, secondaryColor: color, defaultTheme: z.enum(["dark", "light", "system"]),
   navigationLabels: z.object({ dashboard: z.string(), hooks: z.string(), scanner: z.string(), submit: z.string(), docs: z.string() }),
-  social: z.object({ x: safeUrl, telegram: safeUrl, discord: safeUrl, website: safeUrl }), links: z.object({ buy: safeUrl, chart: safeUrl, explorer: safeUrl, documentation: safeUrl }),
-  api: z.object({ defaultChainId: z.number().int().positive(), requestTimeoutMs: z.number().int().min(1000).max(20000) }), features: z.object({ registry: z.boolean(), scanner: z.boolean(), pools: z.boolean(), wallet: z.boolean(), swap: z.boolean(), submissions: z.boolean(), showXButton: z.boolean().default(true), showBuyButton: z.boolean().default(false) }),
+  social: z.object({ x: safeUrl, github: safeUrl.default(""), telegram: safeUrl, discord: safeUrl, website: safeUrl }), links: z.object({ buy: safeUrl, chart: safeUrl, explorer: safeUrl, documentation: safeUrl }),
+  api: z.object({ defaultChainId: z.number().int().positive(), requestTimeoutMs: z.number().int().min(1000).max(20000) }), features: z.object({ registry: z.boolean(), scanner: z.boolean(), pools: z.boolean(), wallet: z.boolean(), swap: z.boolean(), submissions: z.boolean(), showXButton: z.boolean().default(true), showGithubButton: z.boolean().default(true), hideCommunity: z.boolean().default(false), showBuyButton: z.boolean().default(false) }),
   stats: z.object({ registered: z.string(), chains: z.string(), tx24h: z.string(), scanned: z.string() }), activity: z.array(z.object({ name: z.string(), action: z.string(), time: z.string() })).max(100), hooks: z.array(hookRecordSchema).max(500),
   token: z.object({
     name: z.string().min(1).max(60), ticker: z.string().min(1).max(16), contractAddress: ethereumAddress, network: z.string().min(1).max(60), logoUrl: assetUrl, launchPlatform: z.string().max(80), launchVersion: z.enum(["pending", "v1", "v2"]).default("pending"), launchStatus: z.enum(["pre-launch", "preparing", "live", "paused"]), description: z.string().max(500), chartUrl: safeUrl, hideViewChart: z.boolean().default(true), explorerUrl: safeUrl,
@@ -46,8 +46,8 @@ const milestone = (id: string, title: string, status: z.infer<typeof milestoneSt
 
 export const defaultConfig: SiteConfig = {
   version: "default", updatedAt: new Date(0).toISOString(), projectName: "HOOKLABS", ticker: "HOOKLB", contractAddress: "", chainId: 4663, chainName: "Robinhood Chain", logoUrl: "/images/hooklabs-blue-icon.png", primaryColor: "#16a7ff", secondaryColor: "#2dd4ff", defaultTheme: "dark",
-  navigationLabels: { dashboard: "Dashboard", hooks: "Hooks", scanner: "Scanner", submit: "Submit Hook", docs: "API Docs" }, social: { x: "", telegram: "", discord: "", website: "" }, links: { buy: "", chart: "", explorer: "", documentation: "" },
-  api: { defaultChainId: 1, requestTimeoutMs: 8000 }, features: { registry: true, scanner: true, pools: false, wallet: true, swap: false, submissions: true, showXButton: true, showBuyButton: false }, stats: { registered: "0", chains: "5", tx24h: "Unavailable", scanned: "0" }, activity: [], hooks: [],
+  navigationLabels: { dashboard: "Dashboard", hooks: "Hooks", scanner: "Scanner", submit: "Submit Hook", docs: "API Docs" }, social: { x: "", github: "", telegram: "", discord: "", website: "" }, links: { buy: "", chart: "", explorer: "", documentation: "" },
+  api: { defaultChainId: 1, requestTimeoutMs: 8000 }, features: { registry: true, scanner: true, pools: false, wallet: true, swap: false, submissions: true, showXButton: true, showGithubButton: true, hideCommunity: false, showBuyButton: false }, stats: { registered: "0", chains: "5", tx24h: "Unavailable", scanned: "0" }, activity: [], hooks: [],
   token: {
     name: "HookLabs", ticker: "HOOKLB", contractAddress: "", network: "Robinhood Chain", logoUrl: "/images/hooklabs-blue-icon.png", launchPlatform: "Ponsfamily", launchVersion: "pending", launchStatus: "pre-launch", description: "The official pre-launch token for the HOOKLABS hook intelligence ecosystem.", chartUrl: "", hideViewChart: true, explorerUrl: "", purchase: { enabled: false, url: "", label: "Buy $HOOKLB", openInNewTab: true }, marketData: { price: "", marketCap: "", liquidity: "" },
     utilities: [
@@ -79,7 +79,14 @@ function mergeDefaults(base: unknown, incoming: unknown): unknown {
 }
 
 export function migrateConfig(input: unknown): SiteConfig {
-  const legacy = isRecord(input) ? structuredClone(input) : {}
+  // Normalize optional values edited directly on hosting. A single whitespace-only
+  // URL or CA must never invalidate the entire site configuration.
+  const clean = (value: unknown): unknown => {
+    if (Array.isArray(value)) return value.map(clean)
+    if (isRecord(value)) return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, clean(item)]))
+    return typeof value === "string" ? value.trim() : value
+  }
+  const legacy = isRecord(input) ? clean(structuredClone(input)) as Record<string, unknown> : {}
   const token = isRecord(legacy.token) ? legacy.token : {}
   if (token.ticker === "HLAB") token.ticker = "HOOKLB"
   if (legacy.ticker === "HLAB") legacy.ticker = "HOOKLB"
@@ -96,6 +103,16 @@ export function migrateConfig(input: unknown): SiteConfig {
   if (Array.isArray(tokenomics.allocations) && tokenomics.allocations.length === 4 && tokenomics.allocations.every((item) => isRecord(item))) tokenomics.allocations = []
   token.tokenomics = tokenomics
   if (Array.isArray(token.utilities)) token.utilities = token.utilities.map((item, index) => typeof item === "string" ? { name: item, description: "", iconUrl: defaultConfig.token.utilities[index]?.iconUrl ?? "/images/hooklab-logo.png" } : item)
+  // Support both the root-level and token-specific CA/link fields without
+  // forcing users to keep duplicate values in sync.
+  if (!token.contractAddress && typeof legacy.contractAddress === "string") token.contractAddress = legacy.contractAddress
+  if (!legacy.contractAddress && typeof token.contractAddress === "string") legacy.contractAddress = token.contractAddress
+  const links = isRecord(legacy.links) ? legacy.links : {}
+  const purchase = isRecord(token.purchase) ? token.purchase : {}
+  if (!purchase.url && typeof links.buy === "string") purchase.url = links.buy
+  if (!token.chartUrl && typeof links.chart === "string") token.chartUrl = links.chart
+  if (!token.explorerUrl && typeof links.explorer === "string") token.explorerUrl = links.explorer
+  token.purchase = purchase
   legacy.token = token
   if (!Array.isArray(legacy.announcements)) {
     const community = isRecord(legacy.community) ? legacy.community : {}

@@ -7,8 +7,8 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { WalletProvider } from "@/components/wallet-provider"
 import { Toaster } from "@/components/ui/sonner"
 
-const geist = Geist({ variable: "--font-geist" })
-const geistMono = Geist_Mono({ variable: "--font-geist-mono" })
+const geist = Geist({ variable: "--font-geist", subsets: ["latin"] })
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] })
 import { TooltipProvider } from "@/components/ui/tooltip"
 import "./globals.css"
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 title: { default: "HOOKLABS — Hook Intelligence & $HOOKLB Ecosystem", template: "%s · HOOKLABS" },
  description: "Explore HOOKLABS hook intelligence, the proposed $HOOKLB ecosystem token, roadmap, and community resources.",
   generator: "v0.app",
-  icons: { icon: "/images/hooklabs-official-logo.png", apple: "/images/hooklabs-official-logo.png" },
+  icons: { icon: "/images/hooklabs-favicon.png", apple: "/images/hooklabs-favicon.png" },
 }
 
 export const viewport: Viewport = { colorScheme: "dark", themeColor: "#08090A", userScalable: true }
