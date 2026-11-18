@@ -53,7 +53,7 @@ Some features require separately configured RPC endpoints, database credentials,
 
 The [`contracts/`](./contracts) directory documents interfaces used for blockchain integrations. It does not represent a deployed HOOKLABS-owned smart contract.
 
-Public deployment records and templates are maintained in [`deployments/`](./deployments). Details for the planned HOOKLB token launch are available in the [launch guide](./docs/HOOKLB-LAUNCH-GUIDE.md). Contract addresses will be documented only after verification.
+Public deployment records and templates are maintained in [`deployments/`](./deployments). The project maintainer has reported the HOOKLB token address on Robinhood Chain (chain ID 4663): [`0xd42565f935b3ca58aeb08d8f4860caa9d6753ade`](https://robinhoodchain.blockscout.com/address/0xd42565f935b3ca58aeb08d8f4860caa9d6753ade). This address is documented in the [HOOKLB deployment record](./deployments/hooklb-robinhood-mainnet.json); independent on-chain verification of the deployment and launch transaction is still pending. The [launch guide](./docs/HOOKLB-LAUNCH-GUIDE.md) explains the remaining verification and website configuration steps.
 
 ---
 
