@@ -9,8 +9,9 @@
     "launchVersion": null,
     "deploymentTransactionHash": null,
     "explorerUrl": "https://robinhoodchain.blockscout.com/address/0xd42565f935b3ca58aeb08d8f4860caa9d6753ade",
-    "provenance": "Token address supplied by project maintainer on 2026-11-18; independent on-chain verification pending.",
-    "verifiedSourceCode": false
+    "provenance": "Token address and Ponsfamily launchpad URL supplied by project maintainer on 2026-11-18; independent on-chain verification pending.",
+    "verifiedSourceCode": false,
+    "launchpadUrl": "https://ponsfamily.com/launchpad/0xd42565f935b3ca58aeb08d8f4860caa9d6753ade"
   },
   "note": "This records the maintainer-reported token address, not an independently verified deployment or a HOOKLABS-authored token implementation."
 }
