@@ -1,0 +1,15 @@
+{
+  "network": "Robinhood Chain",
+  "chainId": 4663,
+  "token": {
+    "name": "HOOKLABS",
+    "symbol": "HOOKLB",
+    "address": "REPLACE_WITH_VERIFIED_CA",
+    "launchPlatform": "Ponsfamily",
+    "launchVersion": "v2",
+    "deploymentTransactionHash": "REPLACE_WITH_VERIFIED_TX_HASH",
+    "provenance": "Confirm against actual on-chain launch data",
+    "verifiedSourceCode": false
+  },
+  "note": "Example only; no token deployment has been confirmed."
+}

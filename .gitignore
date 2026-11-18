@@ -46,3 +46,13 @@ build/
 coverage/
 next-env.d.ts
 *.tsbuildinfo
+# HOOKLABS private configuration and deploy artifacts
+/public/config.json
+/public/config.*.local.json
+/broadcast/
+/cache/
+/coverage/
+*.key
+*.pem
+*.keystore
+
